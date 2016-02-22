@@ -14,12 +14,15 @@ namespace FirstTry_2D_Game
     {
         KeyboardState keystate;
         SpriteFont font;
+        SpriteFont Menu;
 
         public override void LoadContent(ContentManager Content)
         {
             base.LoadContent(Content);
             if (font == null)
                 font = content.Load<SpriteFont>("Fonts/Header");
+            if (Menu == null)
+                Menu = content.Load<SpriteFont>("Fonts/Menu");
         }
 
         public override void UnloadContent()
@@ -29,13 +32,16 @@ namespace FirstTry_2D_Game
         public override void Update(GameTime gametime)
         {
             keystate = Keyboard.GetState();
-            if (keystate.IsKeyDown(Keys.Enter))
+            if (keystate.IsKeyDown(Keys.L))
                 ScreenManager.Instance.AddScreen(new SplashScreen());
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, "TitleScreen", new Vector2(100, 100), Color.Black);
+            spriteBatch.DrawString(font, "TitleScreen", new Vector2(245, 100), Color.Black);
+            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(300, 340), Color.Black);
+            spriteBatch.DrawString(Menu, "C - Credits", new Vector2(348, 390), Color.Black);
+            spriteBatch.DrawString(Menu, "Esc - Exit", new Vector2(353, 430), Color.Black);
         }
     }
 }
