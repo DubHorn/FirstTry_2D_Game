@@ -34,6 +34,12 @@ namespace FirstTry_2D_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ScreenManager.Instance.Initialize();
+
+            ScreenManager.Instance.Dimensions = new Vector2(800, 600);
+            graphics.PreferredBackBufferWidth = (int)ScreenManager.Instance.Dimensions.X;
+            graphics.PreferredBackBufferHeight = (int)ScreenManager.Instance.Dimensions.Y;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -48,6 +54,7 @@ namespace FirstTry_2D_Game
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            ScreenManager.Instance.LoadContent(Content);
         }
 
         /// <summary>
@@ -71,7 +78,7 @@ namespace FirstTry_2D_Game
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            ScreenManager.Instance.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -84,7 +91,9 @@ namespace FirstTry_2D_Game
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            ScreenManager.Instance.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
