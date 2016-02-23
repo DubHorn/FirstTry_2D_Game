@@ -21,7 +21,7 @@ namespace FirstTry_2D_Game
         /// <summary>
         /// Current Screen that's being displayed
         /// </summary>
-        GameScreen CurrentScreen;
+        GameScreen currentScreen;
 
         /// <summary>
         /// The new screen that will be taking effect
@@ -43,6 +43,16 @@ namespace FirstTry_2D_Game
         /// </summary>
         /// 
         Vector2 dimensions;
+
+        /// <summary>
+        /// Transition
+        /// </summary>
+
+        bool transition;
+
+        FadeAnimation fade = new FadeAnimation();
+
+        Texture2D fadeTexture;
 
         #endregion
 
@@ -68,32 +78,64 @@ namespace FirstTry_2D_Game
 
         public void AddScreen(GameScreen screen)
         {
+            transition = true;
             newScreen = screen;
-            ScreenStack.Push(screen);
-            CurrentScreen.UnloadContent();
-            CurrentScreen = newScreen;
-            CurrentScreen.LoadContent(content);
+            fade.IsActive = true;
+            fade.Alpha = 0.0f;
+            fade.ActivateValue = 1.0f;
+
         }
 
         public void Initialize()
         {
-            CurrentScreen = new SplashScreen();
+            currentScreen = new SplashScreen();
+            fade = new FadeAnimation();
         }
         public void LoadContent(ContentManager Content)
         {
             content = new ContentManager(Content.ServiceProvider, "Content");
-            CurrentScreen.LoadContent(Content);
+            currentScreen.LoadContent(Content);
+
+            fadeTexture = content.Load<Texture2D>("fade");
+            fade.LoadContent(content, fadeTexture, "", Vector2.Zero);
+            fade.Scale = dimensions.X;
         }
-        public void Update(GameTime gametime)
+        public void Update(GameTime gameTime)
         {
-            CurrentScreen.Update(gametime);
+            if (!transition)
+                currentScreen.Update(gameTime);
+            else
+                Transition(gameTime);
         }
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            CurrentScreen.Draw(spritebatch);
+            currentScreen.Draw(spriteBatch);
+            if (transition)
+                fade.Draw(spriteBatch);
         }
 
 
         #endregion
+
+        #region Private methods
+        private void Transition(GameTime gameTime)
+        {
+            fade.Update(gameTime);
+            if(fade.Alpha == 1.0f && fade.Timer.TotalSeconds == 1.0f)
+            {
+                ScreenStack.Push(newScreen);
+                currentScreen.UnloadContent();
+                currentScreen = newScreen;
+                currentScreen.LoadContent(content);
+            }
+            else if (fade.Alpha == 0.0f)
+            {
+                transition = false;
+                fade.IsActive = false;
+            }
+
+        }
+        #endregion
+
     }
 }

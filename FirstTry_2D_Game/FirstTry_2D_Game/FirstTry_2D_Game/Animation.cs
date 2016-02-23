@@ -22,10 +22,22 @@ namespace FirstTry_2D_Game
         protected bool isActive;
         protected float alpha;
 
+        public virtual float Alpha
+        {
+            get { return alpha; }
+            set { alpha = value; }
+        }
+
         public bool IsActive
         {
             set { isActive = value; }
             get { return isActive; }
+        }
+
+        public float Scale
+        {
+            set { scale = value; }
+
         }
 
         public virtual void LoadContent(ContentManager Content, Texture2D image, string text, Vector2 postion)
@@ -65,13 +77,13 @@ namespace FirstTry_2D_Game
             if (image != null)
             {
                 origin = new Vector2(sourceRect.Width / 2, sourceRect.Height / 2);
-                spriteBatch.Draw(image, postion + origin, sourceRect, Color.White, rotation, origin, scale, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(image, postion + origin, sourceRect, Color.White * alpha, rotation, origin, scale, SpriteEffects.None, 0.0f);
 
             }
             if (text != string.Empty)
             {
                 origin = new Vector2(font.MeasureString(text).X / 2, font.MeasureString(text).Y / 2);
-                spriteBatch.DrawString(font, text, postion + origin, color, rotation, origin, scale, SpriteEffects.None, 0.0f);
+                spriteBatch.DrawString(font, text, postion + origin, color * alpha, rotation, origin, scale, SpriteEffects.None, 0.0f);
             }
             
         }
