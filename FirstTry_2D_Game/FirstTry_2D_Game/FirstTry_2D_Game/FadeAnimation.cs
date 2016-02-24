@@ -54,6 +54,11 @@ namespace FirstTry_2D_Game
             get { return activateValue; }
             set { activateValue = value; }
         }
+
+        public bool Increase
+        {
+            set { increase = value; }
+        }
         public override void LoadContent(ContentManager Content, Texture2D image, string text, Vector2 postion)
         {
             base.LoadContent(Content, image, text, postion);

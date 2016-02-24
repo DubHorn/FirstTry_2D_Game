@@ -86,6 +86,20 @@ namespace FirstTry_2D_Game
 
         }
 
+        public void AddScreen(GameScreen screen, float alpha)
+        {
+            transition = true;
+            newScreen = screen;
+            fade.IsActive = true;
+            fade.ActivateValue = 1.0f;
+            if (alpha != 1.0f)
+                fade.Alpha = 1.0f - alpha;
+            else
+                fade.Alpha = alpha;
+            fade.Increase = true;
+
+        }
+
         public void Initialize()
         {
             currentScreen = new SplashScreen();
