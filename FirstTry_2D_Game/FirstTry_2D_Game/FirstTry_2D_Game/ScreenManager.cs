@@ -54,6 +54,10 @@ namespace FirstTry_2D_Game
 
         Texture2D fadeTexture;
 
+        InputManager inputManager;
+
+        Texture2D nullImage;
+
         #endregion
 
         #region Properties
@@ -72,21 +76,27 @@ namespace FirstTry_2D_Game
             get { return dimensions; }
             set { dimensions = value; }
         }
+
+        public Texture2D NullImage
+        {
+            get { return nullImage; }
+        }
         #endregion
 
         #region Main Methods
 
-        public void AddScreen(GameScreen screen)
+        public void AddScreen(GameScreen screen, InputManager inputManager)
         {
             transition = true;
             newScreen = screen;
             fade.IsActive = true;
             fade.Alpha = 0.0f;
             fade.ActivateValue = 1.0f;
+            this.inputManager = inputManager;
 
         }
 
-        public void AddScreen(GameScreen screen, float alpha)
+        public void AddScreen(GameScreen screen, InputManager inputManager, float alpha)
         {
             transition = true;
             newScreen = screen;
@@ -97,6 +107,7 @@ namespace FirstTry_2D_Game
             else
                 fade.Alpha = alpha;
             fade.Increase = true;
+            this.inputManager = inputManager;
 
         }
 
@@ -104,12 +115,14 @@ namespace FirstTry_2D_Game
         {
             currentScreen = new SplashScreen();
             fade = new FadeAnimation();
+            inputManager = new InputManager();
         }
         public void LoadContent(ContentManager Content)
         {
             content = new ContentManager(Content.ServiceProvider, "Content");
-            currentScreen.LoadContent(Content);
+            currentScreen.LoadContent(Content, inputManager);
 
+            nullImage = content.Load<Texture2D>("null");
             fadeTexture = content.Load<Texture2D>("fade");
             fade.LoadContent(content, fadeTexture, "", Vector2.Zero);
             fade.Scale = dimensions.X;
@@ -140,7 +153,7 @@ namespace FirstTry_2D_Game
                 ScreenStack.Push(newScreen);
                 currentScreen.UnloadContent();
                 currentScreen = newScreen;
-                currentScreen.LoadContent(content);
+                currentScreen.LoadContent(content, this.inputManager);
             }
             else if (fade.Alpha == 0.0f)
             {

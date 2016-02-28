@@ -14,7 +14,7 @@ namespace FirstTry_2D_Game
         bool increase;
         float fadespeed;
         TimeSpan defaultTime, timer;
-        bool startTimer;
+        //bool startTimer;
         float activateValue;
         bool stopUpdating;
         float defaultAlpha;
@@ -111,6 +111,7 @@ namespace FirstTry_2D_Game
             else
             {
                 alpha = defaultAlpha;
+                stopUpdating = false;
             }
         }
     }

@@ -9,12 +9,11 @@ namespace FirstTry_2D_Game
 {
     public class FileManager
     {
-        enum LoadType { Attributes, Contents};
+        enum LoadType { Attributes, Contents };
 
         LoadType type;
 
-        List<string> tempAttributes = new List<string>();
-        List<string> tempContents = new List<string>();
+        List<string> tempAttributes, tempContents;
 
         bool identifierFound = false;
 
@@ -25,7 +24,6 @@ namespace FirstTry_2D_Game
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
-
                     if (line.Contains("Load="))
                     {
                         tempAttributes = new List<string>();
@@ -34,22 +32,25 @@ namespace FirstTry_2D_Game
                     }
                     else
                     {
-                        tempContents = new List<string>();
                         type = LoadType.Contents;
                     }
 
-                    string[] lineArray = line.Split(']');
+                    tempContents = new List<string>();
 
+                    string[] lineArray = line.Split(']');
                     foreach (string li in lineArray)
                     {
                         string newLine = li.Trim('[', ' ', ']');
-                        if (type == LoadType.Contents)
-                            tempContents.Add(newLine);
-                        else
-                            tempAttributes.Add(newLine);
+                        if (newLine != String.Empty)
+                        {
+                            if (type == LoadType.Contents)
+                                tempContents.Add(newLine);
+                            else
+                                tempAttributes.Add(newLine);
+                        }
                     }
 
-                    if(type == LoadType.Contents && tempContents.Count > 0)
+                    if (type == LoadType.Contents && tempContents.Count > 0)
                     {
                         contents.Add(tempContents);
                         attributes.Add(tempAttributes);
@@ -57,6 +58,7 @@ namespace FirstTry_2D_Game
                 }
             }
         }
+
         public void LoadContent(string filename, List<List<string>> attributes, List<List<string>> contents, string identifier)
         {
             using (StreamReader reader = new StreamReader(filename))
@@ -64,13 +66,12 @@ namespace FirstTry_2D_Game
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
-
-                    if (line.Contains("EndLoad="))
+                    if (line.Contains("EndLoad=") && line.Contains(identifier))
                     {
                         identifierFound = false;
                         break;
                     }
-                    else if (line.Contains("Load="))
+                    else if (line.Contains("Load=") && line.Contains(identifier))
                     {
                         identifierFound = true;
                         continue;
@@ -78,8 +79,6 @@ namespace FirstTry_2D_Game
 
                     if (identifierFound)
                     {
-
-
                         if (line.Contains("Load="))
                         {
                             tempAttributes = new List<string>();
@@ -93,14 +92,16 @@ namespace FirstTry_2D_Game
                         }
 
                         string[] lineArray = line.Split(']');
-
                         foreach (string li in lineArray)
                         {
                             string newLine = li.Trim('[', ' ', ']');
-                            if (type == LoadType.Contents)
-                                tempContents.Add(newLine);
-                            else
-                                tempAttributes.Add(newLine);
+                            if (newLine != String.Empty)
+                            {
+                                if (type == LoadType.Contents)
+                                    tempContents.Add(newLine);
+                                else
+                                    tempAttributes.Add(newLine);
+                            }
                         }
 
                         if (type == LoadType.Contents && tempContents.Count > 0)

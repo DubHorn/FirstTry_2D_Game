@@ -13,7 +13,6 @@ namespace FirstTry_2D_Game
 {
     public class SplashScreen : GameScreen
     {
-        KeyboardState keystate;
         SpriteFont font, Menu /*,text*/ ;
         List<FadeAnimation> fade;
         List<Texture2D> images;
@@ -22,9 +21,9 @@ namespace FirstTry_2D_Game
 
         int imageNumber;
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager Content, InputManager inputManager)
         {
-            base.LoadContent(Content);
+            base.LoadContent(Content, inputManager);
             if (font == null)
                 font = content.Load<SpriteFont>("Fonts/Header");
             if (Menu == null)
@@ -71,29 +70,18 @@ namespace FirstTry_2D_Game
         public override void Update(GameTime gametime)
         {
             inputManager.Update();
-            keystate = Keyboard.GetState();
-            //if (keystate.IsKeyDown(Keys.Enter))
-            //    ScreenManager.Instance.AddScreen(new TitleScreen());
-            //if (keystate.IsKeyDown(Keys.Escape))
-            //    ScreenManager.Instance.AddScreen(new GameScreen());
 
-            fade[imageNumber].Update(gametime);
-            if (fade[imageNumber].Alpha == 0.0f)
-                imageNumber++;
-            if (imageNumber >= fade.Count - 1 || inputManager.KeyPressed(Keys.Enter))
+            if (inputManager.KeyPressed(Keys.Enter))
             {
-                if (fade[imageNumber].Alpha != 1.0f)
-                    ScreenManager.Instance.AddScreen(new TitleScreen(), fade[imageNumber].Alpha);
-                else
-                    ScreenManager.Instance.AddScreen(new TitleScreen());
+                  ScreenManager.Instance.AddScreen(new TitleScreen(), inputManager);
             }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             fade[imageNumber].Draw(spriteBatch);
-            spriteBatch.DrawString(font, "GenericGame", new Vector2(225, 100), Color.Black);
-            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(285, 550), Color.Black);
+            spriteBatch.DrawString(font, "GenericGame", new Vector2(225, 100), Color.WhiteSmoke);
+            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(285, 550), Color.WhiteSmoke);
         }
     }
 }

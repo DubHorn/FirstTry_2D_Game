@@ -40,6 +40,12 @@ namespace FirstTry_2D_Game
 
         }
 
+        public SpriteFont Font
+        {
+            get { return font; }
+            set { font = value; }
+        }
+
         public virtual void LoadContent(ContentManager Content, Texture2D image, string text, Vector2 postion)
         {
             content = new ContentManager(Content.ServiceProvider, "Content");
@@ -47,7 +53,7 @@ namespace FirstTry_2D_Game
             this.text = text;
             this.postion = postion;
             if (text != string.Empty)
-                font = Content.Load<SpriteFont>("AnimationFont");
+                font = Content.Load<SpriteFont>("Fonts/AnimationFont");
             color = new Color(112, 77, 255);
             if (image != null)
                 sourceRect = new Rectangle(0, 0, image.Width, image.Height);

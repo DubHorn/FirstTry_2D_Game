@@ -12,36 +12,33 @@ namespace FirstTry_2D_Game
 {
     public class TitleScreen : GameScreen
     {
-        KeyboardState keystate;
-        SpriteFont font;
-        SpriteFont Menu;
 
-        public override void LoadContent(ContentManager Content)
+        SpriteFont font;
+        MenuManager menu;
+        public override void LoadContent(ContentManager Content, InputManager inputManager)
         {
-            base.LoadContent(Content);
+            base.LoadContent(Content, inputManager);
             if (font == null)
                 font = content.Load<SpriteFont>("Fonts/Header");
-            if (Menu == null)
-                Menu = content.Load<SpriteFont>("Fonts/Menu");
+            
+            menu = new MenuManager();
+            menu.LoadContent(content, "Title");
         }
 
         public override void UnloadContent()
         {
             base.UnloadContent();
+            menu.UnloadContent();
         }
-        public override void Update(GameTime gametime)
+        public override void Update(GameTime gameTime)
         {
-            keystate = Keyboard.GetState();
-            if (keystate.IsKeyDown(Keys.L))
-                ScreenManager.Instance.AddScreen(new SplashScreen());
+            inputManager.Update();
+            menu.Update(gameTime, inputManager);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, "TitleScreen", new Vector2(245, 100), Color.Black);
-            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(300, 340), Color.Black);
-            spriteBatch.DrawString(Menu, "C - Credits", new Vector2(348, 390), Color.Black);
-            spriteBatch.DrawString(Menu, "Esc - Exit", new Vector2(353, 430), Color.Black);
+            menu.Draw(spriteBatch);
         }
     }
 }
