@@ -80,8 +80,8 @@ namespace FirstTry_2D_Game
         public override void Draw(SpriteBatch spriteBatch)
         {
             fade[imageNumber].Draw(spriteBatch);
-            spriteBatch.DrawString(font, "GenericGame", new Vector2(225, 100), Color.WhiteSmoke);
-            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(285, 550), Color.WhiteSmoke);
+            spriteBatch.DrawString(font, "GenericGame", new Vector2(130, 80), Color.WhiteSmoke);
+            spriteBatch.DrawString(Menu, "Enter - To Continue", new Vector2(125, 400), Color.WhiteSmoke);
         }
     }
 }

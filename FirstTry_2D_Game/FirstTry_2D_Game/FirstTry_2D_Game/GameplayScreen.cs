@@ -2,43 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace FirstTry_2D_Game
 {
-    public class TitleScreen : GameScreen
+    public class GameplayScreen : GameScreen
     {
-
-        SpriteFont font;
-        MenuManager menu;
+        Player player;
         public override void LoadContent(ContentManager Content, InputManager inputManager)
         {
             base.LoadContent(Content, inputManager);
-            if (font == null)
-                font = this.content.Load<SpriteFont>("Fonts/Header");
-            
-            menu = new MenuManager();
-            menu.LoadContent(content, "Title");
+            player = new Player();
+            player.LoadContent(content, inputManager);
         }
 
         public override void UnloadContent()
         {
             base.UnloadContent();
-            menu.UnloadContent();
+            player.UnloadContent();
         }
-        public override void Update(GameTime gameTime)
+
+        public override void Update(GameTime gametime)
         {
             inputManager.Update();
-            menu.Update(gameTime, inputManager);
+            player.Update(gametime, inputManager);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            menu.Draw(spriteBatch);
+            base.Draw(spriteBatch);
+            player.Draw(spriteBatch);
         }
     }
 }

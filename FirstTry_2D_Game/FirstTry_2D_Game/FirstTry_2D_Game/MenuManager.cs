@@ -134,13 +134,13 @@ namespace FirstTry_2D_Game
                     switch (attributes[i][j])
                     {
                         case "Font":
-                            font = content.Load<SpriteFont>(contents[i][j]);
+                            font = this.content.Load<SpriteFont>(contents[i][j]);
                             break;
                         case "Item":
                             menuItems.Add(contents[i][j]);
                             break;
                         case "Image":
-                            menuImages.Add(content.Load<Texture2D>(contents[i][j]));
+                            menuImages.Add(this.content.Load<Texture2D>(contents[i][j]));
                             break;
                         case "Axis":
                             axis = int.Parse(contents[i][j]);

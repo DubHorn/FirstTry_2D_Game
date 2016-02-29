@@ -122,8 +122,8 @@ namespace FirstTry_2D_Game
             content = new ContentManager(Content.ServiceProvider, "Content");
             currentScreen.LoadContent(Content, inputManager);
 
-            nullImage = content.Load<Texture2D>("null");
-            fadeTexture = content.Load<Texture2D>("fade");
+            nullImage = this.content.Load<Texture2D>("null");
+            fadeTexture = this.content.Load<Texture2D>("fade");
             fade.LoadContent(content, fadeTexture, "", Vector2.Zero);
             fade.Scale = dimensions.X;
         }

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace FirstTry_2D_Game
 {
-    class Animation
+    public class Animation
     {
         protected Texture2D image;
         protected string text;
@@ -53,7 +53,7 @@ namespace FirstTry_2D_Game
             this.text = text;
             this.postion = postion;
             if (text != string.Empty)
-                font = Content.Load<SpriteFont>("Fonts/AnimationFont");
+                font = this.content.Load<SpriteFont>("Fonts/AnimationFont");
             color = new Color(112, 77, 255);
             if (image != null)
                 sourceRect = new Rectangle(0, 0, image.Width, image.Height);
